@@ -5,7 +5,7 @@ import org.example.settings.theme.EditorTheme;
 import java.awt.*;
 
 public interface EditorSettings {
-    public EditorTheme getEditorTheme();
-    public int getLeftMargin();
-    public Font getEditorFont();
+    EditorTheme getEditorTheme();
+    int getLeftMargin();
+    Font getEditorFont();
 }

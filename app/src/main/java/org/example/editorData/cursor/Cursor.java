@@ -1,6 +1,4 @@
-package org.example.text;
-
-import java.util.Objects;
+package org.example.editorData.cursor;
 
 public class Cursor {
     public int col, row;
@@ -10,7 +8,7 @@ public class Cursor {
         this.row = row;
     }
 
-    public void set(int newRow, int newCol) {
+    void set(int newRow, int newCol) {
         this.col = newCol;
         this.row = newRow;
     }
