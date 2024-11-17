@@ -6,9 +6,10 @@ import org.example.settings.EditorSettings;
 import java.lang.reflect.InvocationTargetException;
 
 public class CursorGraphixFactory {
-    public static CursorGraphix create(Class<?> clazz, Cursor cursor, EditorSettings settings) {
+    public static CursorGraphix create(Cursor cursor, EditorSettings settings) {
         try {
-            return (CursorGraphix) clazz.getDeclaredConstructor(Cursor.class, EditorSettings.class)
+            return settings.getCursorGraphixType()
+                    .getDeclaredConstructor(Cursor.class, EditorSettings.class)
                     .newInstance(cursor, settings);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {

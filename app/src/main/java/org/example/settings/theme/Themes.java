@@ -12,8 +12,7 @@ public class Themes {
     public static final EditorTheme DARK = new EditorThemeImpl(
             Color.BLACK,
             Color.WHITE,
-            Color.BLUE,
+            Color.CYAN,
             Color.darkGray
-//            new Color(5,5,5)
     );
 }

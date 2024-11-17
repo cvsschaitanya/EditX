@@ -1,5 +1,6 @@
 package org.example.editor;
 
+import org.example.graphics.cursorGraphics.VerticalLineCursorGraphix;
 import org.example.settings.EditorSettings;
 import org.example.settings.EditorSettingsImpl;
 import org.example.settings.Fonts;
@@ -25,7 +26,8 @@ public class EditorX {
                 10,
                 10,
                 Fonts.MONOX,
-                1.2
+                1.2,
+                VerticalLineCursorGraphix.class
         );
         textPanel = new EditorTextPanel(editorData, settings);
         frame.add(textPanel);

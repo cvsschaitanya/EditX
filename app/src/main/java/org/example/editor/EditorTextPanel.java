@@ -49,8 +49,7 @@ class EditorTextPanel extends JPanel {
 
     private void drawTheCursor(Graphics g) {
         CursorGraphixFactory
-//                .create(UnderLineCursorGraphix.class, editorData.getCursor(), settings)
-                .create(VerticalLineCursorGraphix.class, editorData.getCursor(), settings)
+                .create(editorData.getCursor(), settings)
                 .draw(g);
     }
 
