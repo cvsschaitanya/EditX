@@ -1,12 +1,9 @@
 package org.example.editor;
 
-import org.example.graphics.cursorGraphics.VerticalLineCursorGraphix;
+import org.example.config.Settings;
 import org.example.settings.EditorSettings;
-import org.example.settings.EditorSettingsImpl;
-import org.example.settings.Fonts;
 import org.example.editorData.EditorData;
 import org.example.editorData.EditorDataImpl;
-import org.example.settings.theme.Themes;
 
 import javax.swing.*;
 
@@ -20,15 +17,7 @@ public class EditorX {
         frame.setSize(800, 600);
 
         EditorData editorData = new EditorDataImpl();
-        EditorSettings settings = new EditorSettingsImpl(
-                Themes.DARK,
-                20,
-                10,
-                10,
-                Fonts.MONOX,
-                1.2,
-                VerticalLineCursorGraphix.class
-        );
+        EditorSettings settings = Settings.DEFAULT_EDITOR_SETTINGS;
         textPanel = new EditorTextPanel(editorData, settings);
         frame.add(textPanel);
     }

@@ -1,7 +1,6 @@
 package org.example.editor;
 
 import org.example.graphics.cursorGraphics.CursorGraphixFactory;
-import org.example.graphics.cursorGraphics.VerticalLineCursorGraphix;
 import org.example.settings.EditorSettings;
 import org.example.editorData.EditorData;
 import javax.swing.*;
@@ -10,12 +9,15 @@ import java.awt.*;
 class EditorTextPanel extends JPanel {
     private final EditorData editorData;
     private final EditorSettings settings;
+    private final CursorBlinkManager cursorBlinkManager;
 
     public EditorTextPanel(EditorData editorData, EditorSettings settings) {
         this.editorData = editorData;
         this.settings = settings;
         KeyInputHandler keyInputHandler = new KeyInputHandler(this, editorData);
         addKeyListener(keyInputHandler);
+
+        cursorBlinkManager = new TimerBasedCursorBlinkManager(this);
 
         setBackground(settings.getEditorTheme().getBackGroundColor());
         setFocusable(true);
@@ -48,6 +50,10 @@ class EditorTextPanel extends JPanel {
     }
 
     private void drawTheCursor(Graphics g) {
+        if (!cursorBlinkManager.isVisible()) {
+            return;
+        }
+
         CursorGraphixFactory
                 .create(editorData.getCursor(), settings)
                 .draw(g);
