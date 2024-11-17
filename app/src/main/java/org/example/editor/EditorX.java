@@ -3,22 +3,22 @@ package org.example.editor;
 import org.example.settings.EditorSettings;
 import org.example.settings.EditorSettingsImpl;
 import org.example.settings.Fonts;
-import org.example.text.EditorTextData;
-import org.example.text.EditorTextDataImpl;
+import org.example.editorData.EditorData;
+import org.example.editorData.EditorDataImpl;
 import org.example.settings.theme.Themes;
 
 import javax.swing.*;
 
 public class EditorX {
-    private JFrame frame;
-    private EditorTextPanel textPanel;
+    private final JFrame frame;
+    private final EditorTextPanel textPanel;
 
     public EditorX() {
         frame = new JFrame("Custom Text Editor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
 
-        EditorTextData textData = new EditorTextDataImpl();
+        EditorData editorData = new EditorDataImpl();
         EditorSettings settings = new EditorSettingsImpl(
                 Themes.LIGHT,
                 20,
@@ -26,7 +26,7 @@ public class EditorX {
                 10,
                 Fonts.MONOX
         );
-        textPanel = new EditorTextPanel(textData, settings);
+        textPanel = new EditorTextPanel(editorData, settings);
         frame.add(textPanel);
     }
 

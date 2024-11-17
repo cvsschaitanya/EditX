@@ -1,26 +1,23 @@
 package org.example.editor;
 
-
-
 import org.example.settings.EditorSettings;
-import org.example.text.Cursor;
-import org.example.text.EditorTextData;
-
+import org.example.editorData.cursor.Cursor;
+import org.example.editorData.EditorData;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-class EditorTextPanel extends JPanel implements KeyListener {
-    private final EditorTextData textData;
+class EditorTextPanel extends JPanel {
+    private final EditorData editorData;
     private final EditorSettings settings;
 
-    public EditorTextPanel(EditorTextData textData, EditorSettings settings) {
-        this.textData = textData;
+    public EditorTextPanel(EditorData editorData, EditorSettings settings) {
+        this.editorData = editorData;
         this.settings = settings;
+        KeyInputHandler keyInputHandler = new KeyInputHandler(this, editorData);
+        addKeyListener(keyInputHandler);
+
         setBackground(settings.getEditorTheme().getBackGroundColor());
         setFocusable(true);
-        addKeyListener(this);
     }
 
     @Override
@@ -35,7 +32,7 @@ class EditorTextPanel extends JPanel implements KeyListener {
     private void drawTheCursor(Graphics g) {
         g.setColor(settings.getEditorTheme().getCursorColor());
 
-        Cursor cursor = textData.getCursor();
+        Cursor cursor = editorData.getCursor();
         int charWidth = g.getFontMetrics().charWidth('m');
         int lineHeight = g.getFontMetrics().getHeight();
         settings.getEditorFont();
@@ -53,26 +50,10 @@ class EditorTextPanel extends JPanel implements KeyListener {
 
         final int Y = g.getFontMetrics().getHeight();
         int y = Y;
-        for (String line : textData.getLines()) {
+        for (String line : editorData.getLines()) {
             g.drawString(line, settings.getLeftMargin(), y);
             y += Y;
         }
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        char c = e.getKeyChar();
-        textData.typeCharacter(c);
-        repaint();
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        // Handle special keys if needed
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // Optional
-    }
 }

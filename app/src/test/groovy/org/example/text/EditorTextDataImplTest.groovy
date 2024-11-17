@@ -1,17 +1,22 @@
 package org.example.text
 
+import org.example.editorData.EditorData
+import org.example.editorData.EditorDataImpl
+import org.example.editorData.cursor.Cursor
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+import java.awt.event.KeyEvent
+
 class EditorTextDataImplTest {
 
-    EditorTextData editorTextData;
-    private final String sampleFile = "src/test/resources/sampleFile.cpp";
+    EditorData editorTextData
+    private final String sampleFile = "src/test/resources/sampleFile.cpp"
 
     @BeforeEach
-    public void setUp() {
-        editorTextData = new EditorTextDataImpl()
+    void setUp() {
+        editorTextData = new EditorDataImpl()
 
 //        println System.getProperty("user.dir")
 
@@ -32,49 +37,68 @@ class EditorTextDataImplTest {
 
         lines = lines.getAt(0..<cpos - 1) +
                 [lines.get(cpos - 1) + lines.get(cpos + 1)] +
-                lines.getAt(cpos + 2..<lines.size());
+                lines.getAt(cpos + 2..<lines.size())
 
-        Assertions.assertEquals lines.size(), editorTextData.getLineCount()
         Assertions.assertEquals lines, editorTextData.getLines()
-        for (i in 0..<lines.size()) {
-            Assertions.assertEquals lines[i], editorTextData.getTextAtLine(i)
-        }
         Assertions.assertEquals cursor, editorTextData.getCursor()
     }
 
-    void injectKeyStrokes(String chars) {
-        chars.toCharArray().collect().forEach { c -> editorTextData.typeCharacter(c as char) }
+    void injectKeyStrokes(List<Object> keys) {
+        keys.forEach {
+            it instanceof String
+                    ? it.toCharArray().collect().forEach { c -> editorTextData.typeCharacter(c as char) }
+                    : editorTextData.handleKeyEvent(it as int)
+        }
     }
 
     @Test
     void testTyping() {
-        def lines =
-
-                injectKeyStrokes(String.join '\n', [
+        injectKeyStrokes([
+                String.join('\n', [
                         "Apple",
                         "Bee",
                 ])
+        ])
         assertState([
                 "Apple",
-                "Bee", null, ""
+                "Bee", null, "",
         ])
 
-        injectKeyStrokes("\b")
+        injectKeyStrokes(["\b"])
         assertState([
                 "Apple",
-                "Be", null, ""
+                "Be", null, "",
         ])
 
-        injectKeyStrokes("\b\b")
+        injectKeyStrokes(["\b\b"])
         assertState([
                 "Apple",
-                "", null, ""
+                "", null, "",
         ])
 
-        injectKeyStrokes("\b")
+        injectKeyStrokes(["\b"])
         assertState([
-                "Apple", null, ""
+                "Apple", null, "",
         ])
+
+        injectKeyStrokes(["\b", "icaton", "\n", "Program"])
+        assertState([
+                "Applicaton",
+                "Program", null, "",
+        ])
+
+        injectKeyStrokes([KeyEvent.VK_UP, KeyEvent.VK_RIGHT, "i"])
+        assertState([
+                "Applicati", null, "on",
+                "Program",
+        ])
+
+        injectKeyStrokes([KeyEvent.VK_RIGHT, KeyEvent.VK_DOWN])
+        assertState([
+                "Application",
+                "Program",  null, "",
+        ])
+
 
     }
 
