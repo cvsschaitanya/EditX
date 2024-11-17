@@ -6,11 +6,13 @@ public class EditorThemeImpl implements EditorTheme{
     private final Color backgroundColor;
     private final Color textColor;
     private final Color cursorColor;
+    private final Color activeLineColor;
 
-    public EditorThemeImpl(Color backgroundColor, Color textColor, Color cursorColor) {
+    public EditorThemeImpl(Color backgroundColor, Color textColor, Color cursorColor, Color activeLineColor) {
         this.backgroundColor = backgroundColor;
         this.textColor = textColor;
         this.cursorColor = cursorColor;
+        this.activeLineColor = activeLineColor;
     }
 
     @Override
@@ -26,5 +28,10 @@ public class EditorThemeImpl implements EditorTheme{
     @Override
     public Color getCursorColor() {
         return cursorColor;
+    }
+
+    @Override
+    public Color getActiveLineColor() {
+        return activeLineColor;
     }
 }

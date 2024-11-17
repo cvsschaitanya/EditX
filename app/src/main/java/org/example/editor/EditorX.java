@@ -20,11 +20,12 @@ public class EditorX {
 
         EditorData editorData = new EditorDataImpl();
         EditorSettings settings = new EditorSettingsImpl(
-                Themes.LIGHT,
+                Themes.DARK,
                 20,
                 10,
                 10,
-                Fonts.MONOX
+                Fonts.MONOX,
+                1.2
         );
         textPanel = new EditorTextPanel(editorData, settings);
         frame.add(textPanel);

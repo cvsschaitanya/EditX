@@ -1,7 +1,8 @@
 package org.example.editor;
 
+import org.example.graphics.cursorGraphics.CursorGraphixFactory;
+import org.example.graphics.cursorGraphics.VerticalLineCursorGraphix;
 import org.example.settings.EditorSettings;
-import org.example.editorData.cursor.Cursor;
 import org.example.editorData.EditorData;
 import javax.swing.*;
 import java.awt.*;
@@ -24,35 +25,44 @@ class EditorTextPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        drawTheText(g);
+        g.setFont(settings.getEditorFont());
+
+        highLightActiveLine(g);
 
         drawTheCursor(g);
+
+        drawTheText(g);
+
+    }
+
+    private void highLightActiveLine(Graphics g) {
+        g.setColor(settings.getEditorTheme().getActiveLineColor());
+
+        final int Y = (int) (settings.getLineSpacing() * g.getFontMetrics().getHeight());
+        g.fillRect(
+                0,
+                editorData.getCursor().row * Y,
+                this.getWidth(),
+                Y
+        );
     }
 
     private void drawTheCursor(Graphics g) {
-        g.setColor(settings.getEditorTheme().getCursorColor());
-
-        Cursor cursor = editorData.getCursor();
-        int charWidth = g.getFontMetrics().charWidth('m');
-        int lineHeight = g.getFontMetrics().getHeight();
-        settings.getEditorFont();
-        g.drawLine(
-                settings.getLeftMargin() + cursor.col * charWidth,
-                (cursor.row + 1) * lineHeight,
-                settings.getLeftMargin() + (cursor.col + 1) * charWidth,
-                (cursor.row + 1) * lineHeight
-        );
+        CursorGraphixFactory
+//                .create(UnderLineCursorGraphix.class, editorData.getCursor(), settings)
+                .create(VerticalLineCursorGraphix.class, editorData.getCursor(), settings)
+                .draw(g);
     }
 
     private void drawTheText(Graphics g) {
         g.setColor(settings.getEditorTheme().getTextColor());
-        g.setFont(settings.getEditorFont());
 
-        final int Y = g.getFontMetrics().getHeight();
-        int y = Y;
+        final int Y = (int) (settings.getLineSpacing() * g.getFontMetrics().getHeight());
+        final int y = g.getFontMetrics().getHeight();
+        int baseLine = (int) (Y/2 + y/2.5);
         for (String line : editorData.getLines()) {
-            g.drawString(line, settings.getLeftMargin(), y);
-            y += Y;
+            g.drawString(line, settings.getLeftMargin(), baseLine);
+            baseLine += Y;
         }
     }
 

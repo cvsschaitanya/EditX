@@ -8,4 +8,5 @@ public interface EditorSettings {
     EditorTheme getEditorTheme();
     int getLeftMargin();
     Font getEditorFont();
+    double getLineSpacing();
 }

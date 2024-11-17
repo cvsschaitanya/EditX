@@ -7,17 +7,15 @@ import java.awt.*;
 
 public class EditorSettingsImpl implements EditorSettings{
     private final EditorTheme theme;
-    private final int lineHeight;
-    private int charWidth;
-    private int leftMargin;
-    private Font editorFont;
+    private final int leftMargin;
+    private final Font editorFont;
+    private final double lineSpacing;
 
-    public EditorSettingsImpl(EditorTheme theme, int lineHeight, int charWidth, int leftMargin, Font editorFont) {
+    public EditorSettingsImpl(EditorTheme theme, int lineHeight, int charWidth, int leftMargin, Font editorFont, double lineSpacing) {
         this.theme = theme;
-        this.lineHeight = lineHeight;
-        this.charWidth = charWidth;
         this.leftMargin = leftMargin;
         this.editorFont = editorFont;
+        this.lineSpacing = lineSpacing;
     }
 
     @Override
@@ -33,5 +31,10 @@ public class EditorSettingsImpl implements EditorSettings{
     @Override
     public Font getEditorFont() {
         return editorFont;
+    }
+
+    @Override
+    public double getLineSpacing() {
+        return lineSpacing;
     }
 }
